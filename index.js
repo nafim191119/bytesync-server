@@ -29,6 +29,41 @@ async function run() {
         const servicesCollection = client.db("bytesync").collection("services");
         const teamCollection = client.db("bytesync").collection("team");
         const reviewsCollection = client.db("bytesync").collection("reviews");
+        const clientCollection = client.db("bytesync").collection("client");
+
+        app.post('/api/contact', async (req, res) => {
+            const contactData = req.body;
+            try {
+                // Insert the form data into the customer collection
+                const result = await clientCollection.insertOne(contactData);
+                res.status(201).send({ success: "Your message has been sent successfully!" });
+            } catch (error) {
+                console.error("Error saving contact data:", error);
+                res.status(500).send({ error: "Failed to send the message." });
+            }
+        });
+        app.post('/team', async (req, res) => {
+            const teamMember = req.body;
+
+            try {
+                const result = await teamCollection.insertOne(teamMember);
+                res.status(201).send({ success: "Team member added successfully!" });
+            } catch (error) {
+                console.error("Error adding team member:", error);
+                res.status(500).send({ error: "Failed to add team member." });
+            }
+        });
+        app.post('/service', async (req, res) => {
+            const addService = req.body;
+
+            try {
+                const result = await servicesCollection.insertOne(addService);
+                res.status(201).send({ success: "Team member added successfully!" });
+            } catch (error) {
+                console.error("Error adding team member:", error);
+                res.status(500).send({ error: "Failed to add team member." });
+            }
+        });
 
         // Endpoint to get services data from MongoDB
         app.get('/services', async (req, res) => {
