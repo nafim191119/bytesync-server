@@ -31,7 +31,8 @@ async function run() {
         const reviewsCollection = client.db("bytesync").collection("reviews");
         const clientCollection = client.db("bytesync").collection("client");
 
-        app.post('/api/contact', async (req, res) => {
+
+        app.post('/client', async (req, res) => {
             const contactData = req.body;
             try {
                 // Insert the form data into the customer collection
@@ -76,6 +77,10 @@ async function run() {
         });
         app.get('/reviews', async (req, res) => {
             const result = await reviewsCollection.find().toArray();
+            res.send(result);
+        });
+        app.get('/client', async (req, res) => {
+            const result = await clientCollection.find().toArray();
             res.send(result);
         });
 
