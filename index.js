@@ -21,14 +21,13 @@ const client = new MongoClient(uri, {
     }
 });
 
-// Admin email
 const adminEmail = 'nafim191119@gmail.com';
 
 // Admin check middleware
 function adminCheck(req, res, next) {
     const userEmail = req.body.email || req.user?.email;
     if (userEmail === adminEmail) {
-        next(); // User is admin, proceed to the next middleware or route
+        next();
     } else {
         res.status(403).send({ error: "You do not have permission to access this resource." });
     }
@@ -36,7 +35,6 @@ function adminCheck(req, res, next) {
 
 async function run() {
     try {
-        // Connect the client to the server (optional starting in v4.7)
         await client.connect();
 
         const servicesCollection = client.db("bytesync").collection("services");
@@ -44,14 +42,12 @@ async function run() {
         const reviewsCollection = client.db("bytesync").collection("reviews");
         const clientCollection = client.db("bytesync").collection("client");
 
-        // Protected route for adding client data (admin only)
-        app.post('/client', adminCheck, async (req, res) => {
+        app.post('/client', async (req, res) => {
             const contactData = req.body;
             try {
                 const result = await clientCollection.insertOne(contactData);
                 res.status(201).send({ success: "Client data has been added successfully!" });
             } catch (error) {
-                console.error("Error saving contact data:", error);
                 res.status(500).send({ error: "Failed to add client data." });
             }
         });
@@ -67,6 +63,7 @@ async function run() {
                 res.status(500).send({ error: "Failed to add team member." });
             }
         });
+        
 
         // Protected route for adding services (admin only)
         app.post('/service', adminCheck, async (req, res) => {
