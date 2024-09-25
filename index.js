@@ -41,6 +41,8 @@ async function run() {
         const teamCollection = client.db("bytesync").collection("team");
         const reviewsCollection = client.db("bytesync").collection("reviews");
         const clientCollection = client.db("bytesync").collection("client");
+        const webProjectCollection = client.db("bytesync").collection("webProjects");
+        const appProjectCollection = client.db("bytesync").collection("appProjects");
 
         app.post('/client', async (req, res) => {
             const contactData = req.body;
@@ -95,6 +97,14 @@ async function run() {
 
         app.get('/client', async (req, res) => {
             const result = await clientCollection.find().toArray();
+            res.send(result);
+        });
+        app.get('/webProjects', async (req, res) => {
+            const result = await webProjectCollection.find().toArray();
+            res.send(result);
+        });
+        app.get('/appProjects', async (req, res) => {
+            const result = await appProjectCollection.find().toArray();
             res.send(result);
         });
 
