@@ -99,11 +99,11 @@ async function run() {
             const result = await clientCollection.find().toArray();
             res.send(result);
         });
-        app.get('/webProjects', async (req, res) => {
+        app.get('/webprojects', async (req, res) => {
             const result = await webProjectCollection.find().toArray();
             res.send(result);
         });
-        app.get('/appProjects', async (req, res) => {
+        app.get('/appprojects', async (req, res) => {
             const result = await appProjectCollection.find().toArray();
             res.send(result);
         });
